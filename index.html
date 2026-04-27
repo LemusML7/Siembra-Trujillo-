@@ -3,72 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌱 Siembra Trujillo, Colón</title>
+    <title>🌱🐄 Agro Trujillo - Luna y Campo</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
         *{box-sizing:border-box}
-        body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0a3d2e,#1a5f47);color:#fff;margin:0;padding:20px;min-height:100vh;display:flex;align-items:center;justify-content:center}
-       .container{background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border-radius:22px;padding:30px 25px;max-width:480px;width:90%;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.4)}
-        h1{margin:0 0 8px;font-size:1.9rem}
-       .subtitle{font-size:1.05rem;opacity:0.9;margin-bottom:5px}
-       .coords{font-size:0.85rem;opacity:0.7;margin-bottom:15px}
-       .date{font-size:1.35rem;font-weight:600;margin:12px 0;background:rgba(255,255,255,0.2);padding:10px;border-radius:12px}
-       .phase{font-size:1.55rem;font-weight:600;margin:15px 0}
-       .alerta{background:#fbbf24;color:#0a3d2e;padding:12px;border-radius:12px;font-weight:600;margin:15px 0}
-       .box{background:rgba(255,255,255,0.15);border-radius:16px;padding:18px;margin:18px 0;text-align:left;cursor:pointer;transition:0.3s}
-       .box:active{transform:scale(0.98)}
-       .box h3{margin:0;font-size:1.2rem;text-align:center;display:flex;justify-content:space-between;align-items:center}
-       .content{display:none;margin-top:15px}
-       .content.show{display:block}
-       .tag{display:inline-block;background:rgba(126,211,33,0.3);padding:4px 10px;border-radius:12px;font-size:0.9rem;margin:3px}
-       .no-tag{background:rgba(255,59,48,0.3)}
-        ul{padding-left:20px;margin:10px 0;line-height:1.8}
-        footer{margin-top:20px;font-size:0.85rem;opacity:0.75;text-align:center}
-       .arrow{transition:0.3s}
-       .arrow.rotate{transform:rotate(180deg)}
+        body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0a3d2e,#1a5f47);color:#fff;margin:0;padding:15px;min-height:100vh}
+        .container{background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border-radius:22px;padding:20px;max-width:500px;width:95%;margin:10px auto;box-shadow:0 15px 35px rgba(0,0,0,0.4)}
+        h1{margin:0 0 8px;font-size:1.7rem;text-align:center}
+        .subtitle{font-size:1rem;opacity:0.9;margin-bottom:5px;text-align:center}
+        .coords{font-size:0.8rem;opacity:0.7;margin-bottom:15px;text-align:center}
+        .tabs{display:flex;gap:8px;margin:15px 0}
+        .tab{flex:1;padding:12px;border:none;border-radius:12px;font-weight:600;cursor:pointer;background:rgba(255,255,255,0.15);color:#fff;font-size:1rem}
+        .tab.active{background:#fbbf24;color:#0a3d2e}
+        .date{font-size:1.2rem;font-weight:600;margin:12px 0;background:rgba(255,255,255,0.2);padding:10px;border-radius:12px;text-align:center}
+        .phase{font-size:1.4rem;font-weight:600;margin:15px 0;text-align:center}
+        .alerta{background:#fbbf24;color:#0a3d2e;padding:12px;border-radius:12px;font-weight:600;margin:15px 0;text-align:center}
+        .box{background:rgba(255,255,255,0.15);border-radius:16px;padding:15px;margin:15px 0;text-align:left}
+        .box h3{margin:0 0 10px 0;font-size:1.1rem;text-align:center}
+        .tag{display:inline-block;background:rgba(126,211,33,0.3);padding:4px 10px;border-radius:12px;font-size:0.85rem;margin:3px}
+        .no-tag{background:rgba(255,59,48,0.3)}
+        .producto{background:rgba(0,0,0,0.2);padding:10px;border-radius:10px;margin:8px 0;font-size:0.9rem}
+        .precio{color:#fbbf24;font-weight:700}
+        .wsp{background:#25D366;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;margin-top:5px;font-size:0.85rem;font-weight:600}
+        ul{padding-left:18px;margin:8px 0;line-height:1.7;font-size:0.9rem}
+        footer{margin-top:20px;font-size:0.8rem;opacity:0.75;text-align:center}
+        .hidden{display:none}
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌱 Siembra en Trujillo</h1>
-        <p class="subtitle">Departamento de Colón, Honduras</p>
-        <p class="coords">📍 15.917°N, 85.952°O • Costa Caribe</p>
+        <h1>🌱🐄 Agro Trujillo</h1>
+        <p class="subtitle">Luna, Cultivos y Ganado - Colón</p>
+        <p class="coords">📍 15.917°N, 85.952°O</p>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="cambiarTab('cultivos')">🌱 Cultivos</button>
+            <button class="tab" onclick="cambiarTab('animales')">🐄 Animales</button>
+        </div>
+
         <div class="date" id="fechaActual"></div>
         <div class="phase" id="faseLuna"></div>
         <div class="alerta" id="statusLuna"></div>
 
-        <div class="box" onclick="toggleBox(0)">
-            <h3>✅ SÍ SE PUEDE SEMBRAR HOY <span class="arrow">▼</span></h3>
-            <div class="content" id="seSiembra"></div>
+        <!-- SECCIÓN CULTIVOS -->
+        <div id="cultivos">
+            <div class="box"><h3>✅ SÍ SE PUEDE SEMBRAR HOY</h3><div id="seSiembra"></div></div>
+            <div class="box"><h3>🔧 LABORES RECOMENDADAS</h3><ul id="labores"></ul></div>
+            <div class="box"><h3>❌ NO RECOMENDADO HOY</h3><div id="noSembrar"></div></div>
+            <div class="box"><h3>🛒 PRODUCTOS DEL DÍA</h3><div id="prodCultivos"></div></div>
         </div>
 
-        <div class="box" onclick="toggleBox(1)">
-            <h3>🔧 LABORES RECOMENDADAS <span class="arrow">▼</span></h3>
-            <div class="content"><ul id="labores"></ul></div>
+        <!-- SECCIÓN ANIMALES -->
+        <div id="animales" class="hidden">
+            <div class="box"><h3>✅ RECOMENDADO HOY</h3><div id="seHace"></div></div>
+            <div class="box"><h3>⚠️ LABORES VETERINARIAS</h3><ul id="laboresAnimales"></ul></div>
+            <div class="box"><h3>❌ NO HACER HOY</h3><div id="noHacer"></div></div>
+            <div class="box"><h3>🛒 PRODUCTOS VETERINARIOS</h3><div id="prodAnimales"></div></div>
         </div>
 
-        <div class="box" onclick="toggleBox(2)">
-            <h3>❌ NO RECOMENDADO HOY <span class="arrow">▼</span></h3>
-            <div class="content" id="noSembrar"></div>
-        </div>
-
-        <div class="box" onclick="toggleBox(3)">
-            <h3>🌡️ Clima Trujillo <span class="arrow">▼</span></h3>
-            <div class="content"><p id="clima"></p></div>
-        </div>
-
-        <footer>Sistema Hecho por MELVIN LEMUS<br>Actualizado automáticamente para Trujillo, Colón</footer>
+        <div class="box"><h3>🌡️ Clima Trujillo</h3><p id="clima" style="font-size:0.9rem"></p></div>
+        <footer>Agropecuaria MELVIN LEMUS<br>WhatsApp: 99XX-XXXX • Trujillo, Colón</footer>
     </div>
+
 <script>
-function toggleBox(i){
-    const contents=document.querySelectorAll('.content');
-    const arrows=document.querySelectorAll('.arrow');
-    contents[i].classList.toggle('show');
-    arrows[i].classList.toggle('rotate');
+function cambiarTab(tab){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('cultivos').classList.toggle('hidden',tab!=='cultivos');
+    document.getElementById('animales').classList.toggle('hidden',tab!=='animales');
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-    const TRUJILLO={tz:'America/Tegucigalpa'};
+    const TRUJILLO={tz:'America/Tegucigalpa',wsp:'50499999'}; // Cambia tu número aquí
+    
     function getMoonPhase(date){
         let utc=date.getTime()+(date.getTimezoneOffset()*60000);
         let trujilloTime=new Date(utc-(6*3600000));
@@ -81,6 +88,7 @@ document.addEventListener('DOMContentLoaded',function(){
         const age=phase*29.530588853;const illumination=(1-Math.cos(phase*2*Math.PI))/2*100;
         return{age,illumination}
     }
+    
     function getPhaseInfo(age){
         if(age<1.84566)return{nombre:"Luna Nueva",emoji:"🌑",tipo:"nueva"};
         if(age<5.53699)return{nombre:"Luna Creciente",emoji:"🌒",tipo:"creciente"};
@@ -92,33 +100,52 @@ document.addEventListener('DOMContentLoaded',function(){
         if(age<27.68493)return{nombre:"Luna Menguante",emoji:"🌘",tipo:"menguante"};
         return{nombre:"Luna Nueva",emoji:"🌑",tipo:"nueva"}
     }
-    function getDatos(tipo){
-        const d={
-            nueva:{status:"🌑 LUNA NUEVA - SIEMBRA DE GRANOS",sembrar:["Maíz","Frijol rojo","Frijol negro","Arroz de costa","Sandía","Melón","Ayote","Pipián"],labores:["Preparar semilleros con tierra de montaña","Abonar con gallinaza","Hacer camas altas por lluvias de Trujillo","Sembrar en luna nueva da plantas fuertes"],noSembrar:["Coco","Plátano","Cítricos","Yuca","Papa"],noLabores:["No podar - savia en reposo","No trasplantar"]},
-            creciente:{status:"🌱 LUNA CRECIENTE - HORTALIZAS",sembrar:["Tomate","Chile dulce","Chile picante","Culantro","Cebollín","Lechuga tropical","Repollo","Pepino","Hierbas","Flores"],labores:["Trasplantar 5-7 AM por calor de Colón","Aplicar foliares contra hongos por humedad","Tutorar tomates","Injertar cítricos","Regar solo en mañana"],noSembrar:["Yuca","Ñame","Malanga","Camote","Papa","Zanahoria","Cebolla","Ajo"],noLabores:["No cosechar raíces - poca fuerza","No guardar semillas"]},
-            llena:{status:"🌕 LUNA LLENA - SOLO COSECHA",sembrar:["NINGUNO - Solo cosecha"],labores:["Cosechar plátano, coco, cacao, naranja","Recolectar plantas medicinales","Fumigar vs plagas - están activas","Cortar madera construcción","Recolectar semillas"],noSembrar:["TODO - No sembrar nada"],noLabores:["No sembrar - fuerza en el fruto","No abonar - no absorbe","No podar - sangra mucho"]},
-            menguante:{status:"🌙 LUNA MENGUANTE - RAÍCES Y PODA",sembrar:["Yuca","Ñame","Malanga","Camote","Jengibre","Cúrcuma","Papa","Zanahoria","Rábano","Cebolla","Ajo"],labores:["Podar cítricos, aguacate, mango","Deshierbar - maleza tarda en salir","Trasplantar palma africana y coco","Hacer drenajes por lluvias","Aplicar cal al suelo ácido","Control de maleza"],noSembrar:["Maíz","Frijol","Tomate","Chile","Lechuga","Repollo","Flores"],noLabores:["No sembrar granos - se van en vicio","No sembrar hojas - salen amargas"]}
-        };return d[tipo]
-    }
+    
+    const datosCultivos={
+        nueva:{status:"🌑 LUNA NUEVA - GRANOS",sembrar:["Maíz","Frijol","Arroz","Sandía"],labores:["Preparar semilleros","Abonar con gallinaza","Sembrar granos da plantas fuertes"],noSembrar:["Coco","Plátano","Yuca"],noLabores:["No podar","No trasplantar"],productos:[{n:"Semilla Maíz H-5",p:"L.380/qq"},{n:"Fertilizante 18-46-0",p:"L.720/qq"},{n:"Gallinaza",p:"L.150/saco"}]},
+        creciente:{status:"🌱 LUNA CRECIENTE - HORTALIZAS",sembrar:["Tomate","Chile","Culantro","Cebollín","Lechuga"],labores:["Trasplantar 5-7 AM","Aplicar foliares vs hongos","Tutorar tomates"],noSembrar:["Yuca","Ñame","Malanga","Papa"],noLabores:["No cosechar raíces","No guardar semillas"],productos:[{n:"Semilla Tomate Hayslip",p:"L.180/sobre"},{n:"Fungicida Mancozeb",p:"L.320/L"},{n:"Fertilizante Foliar",p:"L.250/L"}]},
+        llena:{status:"🌕 LUNA LLENA - SOLO COSECHA",sembrar:["NINGUNO"],labores:["Cosechar plátano, coco","Recolectar plantas medicinales","Fumigar vs plagas"],noSembrar:["TODO"],noLabores:["No sembrar","No abonar","No podar"],productos:[{n:"Sacos para cosecha",p:"L.25/u"},{n:"Insecticida Karate",p:"L.280/L"},{n:"Machete Imacasa",p:"L.180"}]},
+        menguante:{status:"🌙 LUNA MENGUANTE - RAÍCES",sembrar:["Yuca","Ñame","Malanga","Camote","Jengibre"],labores:["Podar cítricos, mango","Deshierbar","Trasplantar coco","Aplicar cal"],noSembrar:["Maíz","Frijol","Tomate","Chile"],noLabores:["No sembrar granos","No sembrar hojas"],productos:[{n:"Estacas de Yuca",p:"L.2/estaca"},{n:"Cal Agrícola",p:"L.120/saco"},{n:"Herbicida Glifosato",p:"L.350/gal"}]}
+    };
+    
+    const datosAnimales={
+        nueva:{status:"🌑 LUNA NUEVA - CASTRACIÓN",hacer:["Capar cerdos","Descolar terneros","Marcar ganado","Castrar toros"],labores:["Poca sangre, cicatrizan rápido","Aplicar yodo después","Usar pinzas Burdizzo"],noHacer:["Vacunar","Desparasitar"],noLabores:["No inyectar - poca absorción"],productos:[{n:"Pinza Burdizzo",p:"L.850"},{n:"Yodo 10%",p:"L.95/L"},{n:"Antibiótico Emicina",p:"L.280/100ml"}]},
+        creciente:{status:"🌱 LUNA CRECIENTE - PREVENCIÓN",hacer:["Vacunar","Desparasitar","Vitaminar","Inseminar"],labores:["Mejor absorción de medicamentos","Vacuna ántrax L.45","Desparasitar cada 3 meses"],noHacer:["Capar","Marcar con hierro"],noLabores:["No castrar - sangran mucho"],productos:[{n:"Ivermectina 1%",p:"L.180/50ml"},{n:"Vacuna Ántrax",p:"L.45/dosis"},{n:"Vitamina AD3E",p:"L.320/250ml"}]},
+        llena:{status:"🌕 LUNA LLENA - REPOSO",hacer:["NINGUNO - Solo revisar"],labores:["Solo alimentar y dar agua","Revisar cercos","Contar ganado"],noHacer:["TODO manejo"],noLabores:["No castrar - hemorragias","No vacunar","No marcar"],productos:[{n:"Sal Mineral",p:"L.380/qq"},{n:"Melaza",p:"L.280/barril"},{n:"Alambre púas",p:"L.1,200/rollo"}]},
+        menguante:{status:"🌙 LUNA MENGUANTE - DESTETE",hacer:["Destetar terneros","Esquilar ovejas","Cortar cascos","Podar cachos"],labores:["Cicatrización rápida","Menos estrés al destete","Aplicar matagusanos"],noHacer:["Inseminar","Montar toro"],noLabores:["No preñar - baja fertilidad"],productos:[{n:"Matagusanos Spray",p:"L.150"},{n:"Concentrado Ternero",p:"L.450/qq"},{n:"Descornador",p:"L.380"}]}
+    };
+    
     function climaTrujillo(){
         const mes=new Date().getMonth();
-        if(mes>=2&&mes<=4)return"🌡️ 29-32°C • Época seca<br>💧 Riega 5-7 AM • Humedad 70%<br>☀️ Sol fuerte, usa malla sombra";
-        if(mes>=5&&mes<=10)return"🌧️ 27-30°C • Lluvias de tarde<br>💧 Humedad 85% • Usa drenajes<br>⚠️ Cuidado con hongos";
-        return"🌬️ 26-29°C • Frentes fríos del norte<br>💨 Vientos fuertes • Menos lluvia<br>🌤️ Buen tiempo para cosecha"
+        if(mes>=2&&mes<=4)return"🌡️ 29-32°C • Época seca<br>💧 Humedad 70% • Riesgo garrapata<br>☀️ Dar agua 2x día al ganado";
+        if(mes>=5&&mes<=10)return"🌧️ 27-30°C • Lluvias<br>💧 Humedad 85% • Riesgo casco blando<br>⚠️ Fumigar corrales vs mosca";
+        return"🌬️ 26-29°C • Frentes fríos<br>💨 Vientos • Dar melaza para energía<br>🌤️ Buen tiempo para trabajar ganado"
     }
+    
     function actualizar(){
         const ahora=new Date();
         const opciones={weekday:'long',year:'numeric',month:'long',day:'numeric',timeZone:TRUJILLO.tz};
         document.getElementById('fechaActual').textContent=ahora.toLocaleDateString('es-HN',opciones);
         const{age,illumination}=getMoonPhase(ahora);
         const infoFase=getPhaseInfo(age);
-        const datos=getDatos(infoFase.tipo);
         document.getElementById('faseLuna').textContent=`${infoFase.emoji} ${infoFase.nombre} - ≈ ${Math.round(illumination)}%`;
-        document.getElementById('statusLuna').textContent=datos.status;
-        document.getElementById('seSiembra').innerHTML=datos.sembrar.map(s=>`<span class="tag">${s}</span>`).join('');
-        document.getElementById('labores').innerHTML=datos.labores.map(l=>`<li>${l}</li>`).join('');
-        document.getElementById('noSembrar').innerHTML=`<div style="margin-bottom:8px;">${datos.noSembrar.map(s=>`<span class="tag no-tag">${s}</span>`).join('')}</div><ul style="margin:5px 0 0 20px;">${datos.noLabores.map(l=>`<li>${l}</li>`).join('')}</ul>`;
-        document.getElementById('clima').innerHTML=climaTrujillo()+`<br><br><strong>Suelo Trujillo:</strong> Franco-arenoso, drena rápido. Abona con materia orgánica. pH 5.5-6.5 ideal.`
+        
+        // CULTIVOS
+        const dc=datosCultivos[infoFase.tipo];
+        document.getElementById('statusLuna').textContent=dc.status;
+        document.getElementById('seSiembra').innerHTML=dc.sembrar.map(s=>`<span class="tag">${s}</span>`).join('');
+        document.getElementById('labores').innerHTML=dc.labores.map(l=>`<li>${l}</li>`).join('');
+        document.getElementById('noSembrar').innerHTML=`<div>${dc.noSembrar.map(s=>`<span class="tag no-tag">${s}</span>`).join('')}</div><ul>${dc.noLabores.map(l=>`<li>${l}</li>`).join('')}</ul>`;
+        document.getElementById('prodCultivos').innerHTML=dc.productos.map(p=>`<div class="producto">${p.n} - <span class="precio">${p.p}</span><br><a class="wsp" href="https://wa.me/${TRUJILLO.wsp}?text=Me interesa ${p.n}">Pedir WhatsApp</a></div>`).join('');
+        
+        // ANIMALES
+        const da=datosAnimales[infoFase.tipo];
+        document.getElementById('seHace').innerHTML=da.hacer.map(s=>`<span class="tag">${s}</span>`).join('');
+        document.getElementById('laboresAnimales').innerHTML=da.labores.map(l=>`<li>${l}</li>`).join('');
+        document.getElementById('noHacer').innerHTML=`<div>${da.noHacer.map(s=>`<span class="tag no-tag">${s}</span>`).join('')}</div><ul>${da.noLabores.map(l=>`<li>${l}</li>`).join('')}</ul>`;
+        document.getElementById('prodAnimales').innerHTML=da.productos.map(p=>`<div class="producto">${p.n} - <span class="precio">${p.p}</span><br><a class="wsp" href="https://wa.me/${TRUJILLO.wsp}?text=Me interesa ${p.n}">Pedir WhatsApp</a></div>`).join('');
+        
+        document.getElementById('clima').innerHTML=climaTrujillo();
     }
     actualizar();setInterval(actualizar,3600000);
 });
