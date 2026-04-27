@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Siembra Trujillo, Colón</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0a3d2e,#1a5f47);color:#fff;margin:0;padding:20px;min-height:100vh;display:flex;align-items:center;justify-content:center}
+        .container{background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border-radius:22px;padding:30px 25px;max-width:480px;width:90%;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.4)}
+        h1{margin:0 0 8px;font-size:1.9rem}
+        .subtitle{font-size:1.05rem;opacity:0.9;margin-bottom:5px}
+        .coords{font-size:0.85rem;opacity:0.7;margin-bottom:15px}
+        .date{font-size:1.35rem;font-weight:600;margin:12px 0;background:rgba(255,255,255,0.2);padding:10px;border-radius:12px}
+        .phase{font-size:1.55rem;font-weight:600;margin:15px 0}
+        .alerta{background:#fbbf24;color:#0a3d2e;padding:12px;border-radius:12px;font-weight:600;margin:15px 0}
+        .box{background:rgba(255,255,255,0.15);border-radius:16px;padding:18px;margin:18px 0;text-align:left}
+        .box h3{margin:0 0 12px 0;font-size:1.2rem;text-align:center}
+        .tag{display:inline-block;background:rgba(126,211,33,0.3);padding:4px 10px;border-radius:12px;font-size:0.9rem;margin:3px}
+        .no-tag{background:rgba(255,59,48,0.3)}
+        ul{padding-left:20px;margin:10px 0;line-height:1.8}
+        footer{margin-top:20px;font-size:0.85rem;opacity:0.75;text-align:center}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 Siembra en Trujillo</h1>
+        <p class="subtitle">Departamento de Colón, Honduras</p>
+        <p class="coords">📍 15.917°N, 85.952°O • Costa Caribe</p>
+        <div class="date" id="fechaActual"></div>
+        <div class="phase" id="faseLuna"></div>
+        <div class="alerta" id="statusLuna"></div>
+        <div class="box"><h3>✅ SÍ SE PUEDE SEMBRAR HOY</h3><div id="seSiembra"></div></div>
+        <div class="box"><h3>🔧 LABORES RECOMENDADAS</h3><ul id="labores"></ul></div>
+        <div class="box"><h3>❌ NO RECOMENDADO HOY</h3><div id="noSembrar"></div></div>
+        <div class="box"><h3>🌡️ Clima Trujillo</h3><p id="clima"></p></div>
+        <footer>Sistema Hecho por MELVIN LEMUS<br>Actualizado automáticamente para Trujillo, Colón</footer>
+    </div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+    const TRUJILLO={tz:'America/Tegucigalpa'};
+    function getMoonPhase(date){
+        let utc=date.getTime()+(date.getTimezoneOffset()*60000);
+        let trujilloTime=new Date(utc-(6*3600000));
+        let year=trujilloTime.getUTCFullYear();let month=trujilloTime.getUTCMonth()+1;let day=trujilloTime.getUTCDate();
+        if(month<3){year--;month+=12}
+        const a=Math.floor(year/100);const b=Math.floor(a/4);const c=2-a+b;
+        const e=Math.floor(365.25*(year+4716));const f=Math.floor(30.6001*(month+1));
+        const jd=c+day+e+f-1524.5;const daysSinceNew=jd-2451549.5;
+        const newMoons=daysSinceNew/29.530588853;const phase=newMoons-Math.floor(newMoons);
+        const age=phase*29.530588853;const illumination=(1-Math.cos(phase*2*Math.PI))/2*100;
+        return{age,illumination}
+    }
+    function getPhaseInfo(age){
+        if(age<1.84566)return{nombre:"Luna Nueva",emoji:"🌑",tipo:"nueva"};
+        if(age<5.53699)return{nombre:"Luna Creciente",emoji:"🌒",tipo:"creciente"};
+        if(age<9.22831)return{nombre:"Cuarto Creciente",emoji:"🌓",tipo:"creciente"};
+        if(age<12.91963)return{nombre:"Gibosa Creciente",emoji:"🌔",tipo:"creciente"};
+        if(age<16.61096)return{nombre:"Luna Llena",emoji:"🌕",tipo:"llena"};
+        if(age<20.30228)return{nombre:"Gibosa Menguante",emoji:"🌖",tipo:"menguante"};
+        if(age<23.99361)return{nombre:"Cuarto Menguante",emoji:"🌗",tipo:"menguante"};
+        if(age<27.68493)return{nombre:"Luna Menguante",emoji:"🌘",tipo:"menguante"};
+        return{nombre:"Luna Nueva",emoji:"🌑",tipo:"nueva"}
+    }
+    function getDatos(tipo){
+        const d={
+            nueva:{status:"🌑 LUNA NUEVA - SIEMBRA DE GRANOS",sembrar:["Maíz","Frijol rojo","Frijol negro","Arroz de costa","Sandía","Melón","Ayote","Pipián"],labores:["Preparar semilleros con tierra de montaña","Abonar con gallinaza","Hacer camas altas por lluvias de Trujillo","Sembrar en luna nueva da plantas fuertes"],noSembrar:["Coco","Plátano","Cítricos","Yuca","Papa"],noLabores:["No podar - savia en reposo","No trasplantar"]},
+            creciente:{status:"🌱 LUNA CRECIENTE - HORTALIZAS",sembrar:["Tomate","Chile dulce","Chile picante","Culantro","Cebollín","Lechuga tropical","Repollo","Pepino","Hierbas","Flores"],labores:["Trasplantar 5-7 AM por calor de Colón","Aplicar foliares contra hongos por humedad","Tutorar tomates","Injertar cítricos","Regar solo en mañana"],noSembrar:["Yuca","Ñame","Malanga","Camote","Papa","Zanahoria","Cebolla","Ajo"],noLabores:["No cosechar raíces - poca fuerza","No guardar semillas"]},
+            llena:{status:"🌕 LUNA LLENA - SOLO COSECHA",sembrar:["NINGUNO - Solo cosecha"],labores:["Cosechar plátano, coco, cacao, naranja","Recolectar plantas medicinales","Fumigar vs plagas - están activas","Cortar madera construcción","Recolectar semillas"],noSembrar:["TODO - No sembrar nada"],noLabores:["No sembrar - fuerza en el fruto","No abonar - no absorbe","No podar - sangra mucho"]},
+            menguante:{status:"🌙 LUNA MENGUANTE - RAÍCES Y PODA",sembrar:["Yuca","Ñame","Malanga","Camote","Jengibre","Cúrcuma","Papa","Zanahoria","Rábano","Cebolla","Ajo"],labores:["Podar cítricos, aguacate, mango","Deshierbar - maleza tarda en salir","Trasplantar palma africana y coco","Hacer drenajes por lluvias","Aplicar cal al suelo ácido","Control de maleza"],noSembrar:["Maíz","Frijol","Tomate","Chile","Lechuga","Repollo","Flores"],noLabores:["No sembrar granos - se van en vicio","No sembrar hojas - salen amargas"]}
+        };return d
+    }
+    function climaTrujillo(){
+        const mes=new Date().getMonth();
+        if(mes>=2&&mes<=4)return"🌡️ 29-32°C • Época seca<br>💧 Riega 5-7 AM • Humedad 70%<br>☀️ Sol fuerte, usa malla sombra";
+        if(mes>=5&&mes<=10)return"🌧️ 27-30°C • Lluvias de tarde<br>💧 Humedad 85% • Usa drenajes<br>⚠️ Cuidado con hongos";
+        return"🌬️ 26-29°C • Frentes fríos del norte<br>💨 Vientos fuertes • Menos lluvia<br>🌤️ Buen tiempo para cosecha"
+    }
+    function actualizar(){
+        const ahora=new Date();
+        const opciones={weekday:'long',year:'numeric',month:'long',day:'numeric',timeZone:TRUJILLO.tz};
+        document.getElementById('fechaActual').textContent=ahora.toLocaleDateString('es-HN',opciones);
+        const{age,illumination}=getMoonPhase(ahora);
+        const infoFase=getPhaseInfo(age);
+        const datos=getDatos(infoFase.tipo);
+        document.getElementById('faseLuna').textContent=`${infoFase.emoji} ${infoFase.nombre} - ≈ ${Math.round(illumination)}%`;
+        document.getElementById('statusLuna').textContent=datos.status;
+        document.getElementById('seSiembra').innerHTML=datos.sembrar.map(s=>`<span class="tag">${s}</span>`).join('');
+        document.getElementById('labores').innerHTML=datos.labores.map(l=>`<li>${l}</li>`).join('');
+        document.getElementById('noSembrar').innerHTML=`<div style="margin-bottom:8px;">${datos.noSembrar.map(s=>`<span class="tag no-tag">${s}</span>`).join('')}</div><ul style="margin:5px 0 0 20px;">${datos.noLabores.map(l=>`<li>${l}</li>`).join('')}</ul>`;
+        document.getElementById('clima').innerHTML=climaTrujillo()+`<br><br><strong>Suelo Trujillo:</strong> Franco-arenoso, drena rápido. Abona con materia orgánica. pH 5.5-6.5 ideal.`
+    }
+    actualizar();setInterval(actualizar,3600000);
+});
+</script>
+</body>
+  </html>
