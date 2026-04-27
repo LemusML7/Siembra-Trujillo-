@@ -6,20 +6,26 @@
     <title>🌱 Siembra Trujillo, Colón</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        *{box-sizing:border-box}
         body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0a3d2e,#1a5f47);color:#fff;margin:0;padding:20px;min-height:100vh;display:flex;align-items:center;justify-content:center}
-        .container{background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border-radius:22px;padding:30px 25px;max-width:480px;width:90%;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.4)}
+       .container{background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border-radius:22px;padding:30px 25px;max-width:480px;width:90%;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.4)}
         h1{margin:0 0 8px;font-size:1.9rem}
-        .subtitle{font-size:1.05rem;opacity:0.9;margin-bottom:5px}
-        .coords{font-size:0.85rem;opacity:0.7;margin-bottom:15px}
-        .date{font-size:1.35rem;font-weight:600;margin:12px 0;background:rgba(255,255,255,0.2);padding:10px;border-radius:12px}
-        .phase{font-size:1.55rem;font-weight:600;margin:15px 0}
-        .alerta{background:#fbbf24;color:#0a3d2e;padding:12px;border-radius:12px;font-weight:600;margin:15px 0}
-        .box{background:rgba(255,255,255,0.15);border-radius:16px;padding:18px;margin:18px 0;text-align:left}
-        .box h3{margin:0 0 12px 0;font-size:1.2rem;text-align:center}
-        .tag{display:inline-block;background:rgba(126,211,33,0.3);padding:4px 10px;border-radius:12px;font-size:0.9rem;margin:3px}
-        .no-tag{background:rgba(255,59,48,0.3)}
+       .subtitle{font-size:1.05rem;opacity:0.9;margin-bottom:5px}
+       .coords{font-size:0.85rem;opacity:0.7;margin-bottom:15px}
+       .date{font-size:1.35rem;font-weight:600;margin:12px 0;background:rgba(255,255,255,0.2);padding:10px;border-radius:12px}
+       .phase{font-size:1.55rem;font-weight:600;margin:15px 0}
+       .alerta{background:#fbbf24;color:#0a3d2e;padding:12px;border-radius:12px;font-weight:600;margin:15px 0}
+       .box{background:rgba(255,255,255,0.15);border-radius:16px;padding:18px;margin:18px 0;text-align:left;cursor:pointer;transition:0.3s}
+       .box:active{transform:scale(0.98)}
+       .box h3{margin:0;font-size:1.2rem;text-align:center;display:flex;justify-content:space-between;align-items:center}
+       .content{display:none;margin-top:15px}
+       .content.show{display:block}
+       .tag{display:inline-block;background:rgba(126,211,33,0.3);padding:4px 10px;border-radius:12px;font-size:0.9rem;margin:3px}
+       .no-tag{background:rgba(255,59,48,0.3)}
         ul{padding-left:20px;margin:10px 0;line-height:1.8}
         footer{margin-top:20px;font-size:0.85rem;opacity:0.75;text-align:center}
+       .arrow{transition:0.3s}
+       .arrow.rotate{transform:rotate(180deg)}
     </style>
 </head>
 <body>
@@ -30,13 +36,37 @@
         <div class="date" id="fechaActual"></div>
         <div class="phase" id="faseLuna"></div>
         <div class="alerta" id="statusLuna"></div>
-        <div class="box"><h3>✅ SÍ SE PUEDE SEMBRAR HOY</h3><div id="seSiembra"></div></div>
-        <div class="box"><h3>🔧 LABORES RECOMENDADAS</h3><ul id="labores"></ul></div>
-        <div class="box"><h3>❌ NO RECOMENDADO HOY</h3><div id="noSembrar"></div></div>
-        <div class="box"><h3>🌡️ Clima Trujillo</h3><p id="clima"></p></div>
+
+        <div class="box" onclick="toggleBox(0)">
+            <h3>✅ SÍ SE PUEDE SEMBRAR HOY <span class="arrow">▼</span></h3>
+            <div class="content" id="seSiembra"></div>
+        </div>
+
+        <div class="box" onclick="toggleBox(1)">
+            <h3>🔧 LABORES RECOMENDADAS <span class="arrow">▼</span></h3>
+            <div class="content"><ul id="labores"></ul></div>
+        </div>
+
+        <div class="box" onclick="toggleBox(2)">
+            <h3>❌ NO RECOMENDADO HOY <span class="arrow">▼</span></h3>
+            <div class="content" id="noSembrar"></div>
+        </div>
+
+        <div class="box" onclick="toggleBox(3)">
+            <h3>🌡️ Clima Trujillo <span class="arrow">▼</span></h3>
+            <div class="content"><p id="clima"></p></div>
+        </div>
+
         <footer>Sistema Hecho por MELVIN LEMUS<br>Actualizado automáticamente para Trujillo, Colón</footer>
     </div>
 <script>
+function toggleBox(i){
+    const contents=document.querySelectorAll('.content');
+    const arrows=document.querySelectorAll('.arrow');
+    contents[i].classList.toggle('show');
+    arrows[i].classList.toggle('rotate');
+}
+
 document.addEventListener('DOMContentLoaded',function(){
     const TRUJILLO={tz:'America/Tegucigalpa'};
     function getMoonPhase(date){
@@ -68,7 +98,7 @@ document.addEventListener('DOMContentLoaded',function(){
             creciente:{status:"🌱 LUNA CRECIENTE - HORTALIZAS",sembrar:["Tomate","Chile dulce","Chile picante","Culantro","Cebollín","Lechuga tropical","Repollo","Pepino","Hierbas","Flores"],labores:["Trasplantar 5-7 AM por calor de Colón","Aplicar foliares contra hongos por humedad","Tutorar tomates","Injertar cítricos","Regar solo en mañana"],noSembrar:["Yuca","Ñame","Malanga","Camote","Papa","Zanahoria","Cebolla","Ajo"],noLabores:["No cosechar raíces - poca fuerza","No guardar semillas"]},
             llena:{status:"🌕 LUNA LLENA - SOLO COSECHA",sembrar:["NINGUNO - Solo cosecha"],labores:["Cosechar plátano, coco, cacao, naranja","Recolectar plantas medicinales","Fumigar vs plagas - están activas","Cortar madera construcción","Recolectar semillas"],noSembrar:["TODO - No sembrar nada"],noLabores:["No sembrar - fuerza en el fruto","No abonar - no absorbe","No podar - sangra mucho"]},
             menguante:{status:"🌙 LUNA MENGUANTE - RAÍCES Y PODA",sembrar:["Yuca","Ñame","Malanga","Camote","Jengibre","Cúrcuma","Papa","Zanahoria","Rábano","Cebolla","Ajo"],labores:["Podar cítricos, aguacate, mango","Deshierbar - maleza tarda en salir","Trasplantar palma africana y coco","Hacer drenajes por lluvias","Aplicar cal al suelo ácido","Control de maleza"],noSembrar:["Maíz","Frijol","Tomate","Chile","Lechuga","Repollo","Flores"],noLabores:["No sembrar granos - se van en vicio","No sembrar hojas - salen amargas"]}
-        };return d
+        };return d[tipo]
     }
     function climaTrujillo(){
         const mes=new Date().getMonth();
